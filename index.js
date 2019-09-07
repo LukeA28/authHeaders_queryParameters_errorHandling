@@ -1,6 +1,6 @@
 'use strict';
 
-const accessToken = 'f1515a2e0b7885766306510aa8441dff8202530c';
+const id = '9b7cd6382bbfb5cbeb89';
 
 const searchURL = 'https://api.github.com/users/';
 
@@ -28,6 +28,7 @@ function displayResults(responseJson) {
 
 function getRepos() {
   const params = {
+    client_id: id,
     language: "en"
   };
 
@@ -38,8 +39,7 @@ function getRepos() {
 
   const options = {
     headers: new Headers({
-      "Accept": 'application/vnd.github.v3.full+json',
-      "Authorization": `token ${accessToken}`})
+      "Accept": 'application/vnd.github.v3.full+json'})
   };
 
   fetch(url, options)
