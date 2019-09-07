@@ -1,6 +1,8 @@
 'use strict';
 
-const searchURL = `https://api.github.com/users/lukea28/repos`;
+const accessToken = 'f1515a2e0b7885766306510aa8441dff8202530c';
+
+const searchURL = 'https://api.github.com/users/';
 
 function formatQueryParams(params) {
     const queryItems = Object.keys(params)
@@ -12,12 +14,7 @@ function displayResults(responseJson) {
   // if there are previous results, remove them
   console.log(responseJson);
   $('#results-list').empty();
-  // iterate through the articles array, stopping at the max number of results
-  for (let i = 0; i < responseJson.repos.length & i<maxResults ; i++){
-    // for each video object in the articles
-    //array, add a list item to the results 
-    //list with the article title, source, author,
-    //description, and image
+  for (let i = 0; i < responseJson.length; i++){
     $('#results-list').append(
       `<li>
         <h3>
@@ -31,20 +28,21 @@ function displayResults(responseJson) {
 
 function getRepos() {
   const params = {
-    type: "all"
+    language: "en"
   };
+
   const queryString = formatQueryParams(params);
-  const url = searchURL + '?' + queryString;
+  const url = searchURL + $('#js-search-term').val() + '/repos' + '?' + queryString;
 
   console.log(url);
 
   const options = {
     headers: new Headers({
-      "Accept": 'application/VRDisplayEvent.github.v3+json'
-    })
+      "Accept": 'application/vnd.github.v3.full+json',
+      "Authorization": `token ${accessToken}`})
   };
 
-  fetch(url,options)
+  fetch(url, options)
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -64,4 +62,4 @@ function watchForm() {
   });
 }
 
-$(watchForm);
+$(watchForm());
